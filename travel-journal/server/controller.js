@@ -240,12 +240,10 @@ module.exports = {
     },
 
     createCity: (req, res) => {
-        let {name} = req.body
-        let {rating} = req.body
-        let {countryId} = req.body
+        let {name, rating, countryId} = req.body
 
-        sequelize.query(`insert into cities (name, rating countryId)
-        values (${name}, ${rating}, ${countryId});
+        sequelize.query(`insert into cities (name, rating, country_id)
+        values ('${name}', ${rating}, ${countryId})
         `)
             .then (dbRes => {
                 res.status(200).send(dbRes[0])
@@ -254,11 +252,10 @@ module.exports = {
     },
 
     getCities: (req, res) => {
-        sequelize.query(`select city_id, name as city, rating 
-        from cities and select country_id and name as country
-        from country 
-        join city 
-        on country_id = city_id
+        sequelize.query(`select ci.city_id, ci.name as city, ci.rating, co.country_id, co.name as country
+        from countries as co
+        join cities as ci
+        on co.country_id = ci.country_id
         `) 
             .then (dbRes => {
             res.status(200).send(dbRes[0])
