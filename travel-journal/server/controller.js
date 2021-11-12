@@ -29,6 +29,9 @@ module.exports = {
                 country_id integer
             );
 
+            insert into cities (name, rating, country_id)
+            values ('New Delhi', 2, 78), ('Tokyo', 4, 86), ('Seoul', 5, 163);
+        
             insert into countries (name)
             values ('Afghanistan'),
             ('Albania'),
@@ -256,6 +259,7 @@ module.exports = {
         from countries as co
         join cities as ci
         on co.country_id = ci.country_id
+        order by rating DESC
         `) 
             .then (dbRes => {
             res.status(200).send(dbRes[0])
@@ -276,11 +280,5 @@ module.exports = {
     }
 }
 
-// SELECT a.appt_id, a.date, a.service_type, a.notes, u.first_name, u.last_name
-//         FROM cc_appointments a
-//             JOIN cc_clients c
-//                 ON a.client_id = c.client_id
-//             JOIN cc_users u
-//                 ON u.user_id = c.user_id
-//             WHERE a.approved = true 
-//                 AND a.completed = true 
+
+
